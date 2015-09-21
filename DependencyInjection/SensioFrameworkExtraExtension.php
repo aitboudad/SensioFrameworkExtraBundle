@@ -64,6 +64,14 @@ class SensioFrameworkExtraExtension extends Extension
             ));
         }
 
+        if ($config['translator']['annotations']) {
+            $annotationsToLoad[] = 'translator.xml';
+
+            $this->addClassesToCompile(array(
+                'Sensio\\Bundle\\FrameworkExtraBundle\\EventListener\\TranslatorListener',
+            ));
+        }
+
         if ($config['cache']['annotations']) {
             $annotationsToLoad[] = 'cache.xml';
 
@@ -100,6 +108,10 @@ class SensioFrameworkExtraExtension extends Extension
 
             if ($config['request']['converters']) {
                 $container->getDefinition('sensio_framework_extra.converter.listener')->replaceArgument(1, $config['request']['auto_convert']);
+            }
+
+            if ($config['translator']['annotations']) {
+                $container->getDefinition('sensio_framework_extra.translator')->setDecoratedService('translator');
             }
         }
 
